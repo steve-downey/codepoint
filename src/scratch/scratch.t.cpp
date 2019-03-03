@@ -65,6 +65,19 @@ TEST(ScratchTest, AddSubAssign) {
 
 }
 
+TEST(ScratchTest, AddSub) {
+    codepoint cp1{1};
+    codepoint cp2 = (cp1 + 1);
+    ASSERT_EQ(cp1, 1);
+    ASSERT_EQ(cp2, 2);
+    codepoint cp3 = (cp2 - 2);
+    ASSERT_EQ(cp3, 0);
+    ASSERT_EQ(cp2, 2);
+
+    codepoint cp4 = (cp3 + 2) + 1;
+    ASSERT_EQ(cp3, 3);
+}
+
 TEST(ScratchTest, IncDec) {
     codepoint cp1;
     cp1 = 1;

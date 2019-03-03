@@ -32,6 +32,18 @@ class codepoint {
     template<ranges::Integral I>
     codepoint& operator -=(I b);
 
+    template <ranges::Integral I>
+    friend codepoint operator+(codepoint lhs, I rhs) {
+        lhs += rhs;
+        return lhs;
+    }
+
+    template <ranges::Integral I>
+    friend codepoint operator-(codepoint lhs, I rhs) {
+        lhs -= rhs;
+        return lhs;
+    }
+
     friend constexpr bool operator==(codepoint l, codepoint r);
     friend constexpr bool operator!=(codepoint l, codepoint r);
     friend constexpr bool operator<(codepoint l, codepoint r);
@@ -44,67 +56,75 @@ class codepoint {
 };
 
 template <ranges::Integral I>
-constexpr codepoint::codepoint(I i) : value_(i) {}
+inline constexpr codepoint::codepoint(I i) : value_(i) {}
 
 template <ranges::Integral I>
-constexpr codepoint::operator I() const {
+inline constexpr codepoint::operator I() const {
     return value_;
 }
 
-codepoint& codepoint::operator++() {
+inline codepoint& codepoint::operator++() {
     ++value_;
     return *this;
 }
-codepoint& codepoint::operator--() {
+
+inline codepoint& codepoint::operator--() {
     --value_;
     return *this;
 }
-codepoint codepoint::operator++(int) {
+
+inline codepoint codepoint::operator++(int) {
     char32_t tmp = value_++;
     return tmp;
 }
-codepoint codepoint::operator--(int) {
+
+inline codepoint codepoint::operator--(int) {
     char32_t tmp = value_--;
     return tmp;
 }
 
 template <ranges::Integral I>
-codepoint& codepoint::operator+=(I i) {
+inline codepoint& codepoint::operator+=(I i) {
     value_ += i;
     return *this;
 }
 
 template <ranges::Integral I>
-codepoint& codepoint::operator-=(I i) {
+inline codepoint& codepoint::operator-=(I i) {
     value_ -= i;
     return *this;
 }
 
-constexpr bool operator==(codepoint l, codepoint r) {
+inline constexpr bool operator==(codepoint l, codepoint r) {
     return l.value_ == r.value_;
 }
-constexpr bool operator!=(codepoint l, codepoint r) {
+
+inline constexpr bool operator!=(codepoint l, codepoint r) {
     return l.value_ != r.value_;
 }
-constexpr bool operator<(codepoint l, codepoint r) {
+
+inline constexpr bool operator<(codepoint l, codepoint r) {
     return l.value_ < r.value_;
 }
-constexpr bool operator<=(codepoint l, codepoint r) {
+
+inline constexpr bool operator<=(codepoint l, codepoint r) {
     return l.value_ <= r.value_;
 }
-constexpr bool operator>(codepoint l, codepoint r) {
+
+inline constexpr bool operator>(codepoint l, codepoint r) {
     return l.value_ > r.value_;
 }
-constexpr bool operator>=(codepoint l, codepoint r) {
+
+inline constexpr bool operator>=(codepoint l, codepoint r) {
     return l.value_ >= r.value_;
 }
 
-constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs) {
+inline constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs) {
     return lhs.value_ - rhs.value_;
 }
 
 template< class CharT, class Traits >
-std::basic_ostream<CharT,Traits>&
+inline std::basic_ostream<CharT,Traits>&
 operator<<( std::basic_ostream<CharT,Traits>& os, codepoint c ) {
     return (os << static_cast<char32_t>(c));
 }
