@@ -1,2 +1,2 @@
-add_subdirectory(scratch)
+add_subdirectory(codepoint)
 add_subdirectory(examples)
