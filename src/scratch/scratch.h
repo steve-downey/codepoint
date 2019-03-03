@@ -44,6 +44,7 @@ class codepoint {
         return lhs;
     }
 
+    //  auto constexpr operator<=>(codepoint) = default;
     friend constexpr bool operator==(codepoint l, codepoint r);
     friend constexpr bool operator!=(codepoint l, codepoint r);
     friend constexpr bool operator<(codepoint l, codepoint r);
