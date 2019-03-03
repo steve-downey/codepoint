@@ -54,6 +54,14 @@ class codepoint {
     friend constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs);
 };
 
+template <class CharT, class Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, codepoint c) {
+    return (os << static_cast<char32_t>(c));
+}
+
+
+// IMPLEMENTATIONS
 template <ranges::Integral I>
 inline constexpr codepoint::codepoint(I i) : value_(i) {}
 
@@ -120,12 +128,6 @@ inline constexpr bool operator>=(codepoint l, codepoint r) {
 
 inline constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs) {
     return lhs.value_ - rhs.value_;
-}
-
-template <class CharT, class Traits>
-inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, codepoint c) {
-    return (os << static_cast<char32_t>(c));
 }
 
 } // namespace scratch
