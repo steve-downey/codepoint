@@ -19,12 +19,18 @@ class codepoint {
     constexpr codepoint(I i) : value_(i) {}
 
     template<ranges::Integral I>
-    constexpr operator I() const {return  value_;}
+    constexpr explicit operator I() const {return  value_;}
 
     codepoint& operator++();
     codepoint& operator--();
     codepoint operator++(int);
     codepoint operator--(int);
+
+    template<ranges::Integral I>
+    codepoint& operator +=(I b);
+
+    template<ranges::Integral I>
+    codepoint& operator -=(I b);
 
     friend constexpr bool operator==(codepoint l, codepoint r);
     friend constexpr bool operator!=(codepoint l, codepoint r);
@@ -51,6 +57,18 @@ codepoint codepoint::operator++(int) {
 codepoint codepoint::operator--(int) {
     char32_t tmp = value_--;
     return tmp;
+}
+
+template <ranges::Integral I>
+codepoint& codepoint::operator+=(I i) {
+    value_ += i;
+    return *this;
+}
+
+template <ranges::Integral I>
+codepoint& codepoint::operator-=(I i) {
+    value_ -= i;
+    return *this;
 }
 
 constexpr bool operator==(codepoint l, codepoint r) {

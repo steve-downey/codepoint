@@ -44,8 +44,23 @@ TEST(ScratchTest, IntegralCompare) {
 TEST(ScratchTest, IntegralAssign) {
     constexpr codepoint cp1{1};
     int i;
-    i = cp1;
+    i = int(cp1);
     ASSERT_EQ(1, i);
+}
+
+TEST(ScratchTest, AddSubAssign) {
+    codepoint cp1{1};
+    codepoint cp2 = (cp1 += 1);
+    ASSERT_EQ(cp1, 2);
+    ASSERT_EQ(cp2, cp1);
+    codepoint cp3 = (cp2 -= 2);
+    ASSERT_EQ(cp3, 0);
+    ASSERT_EQ(cp3, cp2);
+
+    codepoint cp4 = 0;
+    (cp4 += 1) += 2;
+    ASSERT_EQ(cp4, 3);
+
 }
 
 TEST(ScratchTest, IncDec) {
