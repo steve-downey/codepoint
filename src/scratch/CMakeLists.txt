@@ -12,6 +12,8 @@ target_include_directories(scratch PUBLIC
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${CMAKE_LOWER_PROJECT_NAME}>  # <prefix>/include/scratch
   )
 
+target_link_libraries(scratch stl2)
+
 install(
   TARGETS scratch
   EXPORT ${TARGETS_EXPORT_NAME}
