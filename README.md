@@ -1,5 +1,3 @@
-# SCRATCH #
+# Unicode #
 
-Scratch work
-
-The repository is also my work on, if not 'best', at least good practices with CMake and emerging consensus on file and directory layout.
+Codepoint : a strong type representing a unicode codepoint
