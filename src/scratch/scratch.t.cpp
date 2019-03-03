@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 
+#include <sstream>
+
 using namespace scratch;
 
 TEST(ScratchTest, TestGTest) {
@@ -103,4 +105,12 @@ TEST(ScratchTest, Compare) {
     ASSERT_TRUE((cp1 <= cp1));
     ASSERT_TRUE((cp2 > cp1));
     ASSERT_TRUE((cp2 >= cp2));
+}
+
+TEST(ScratchTest, Stream) {
+    std::ostringstream stream;
+    constexpr codepoint cp1{'b'};
+    stream << cp1;
+    //   ASSERT_EQ(stream.str(), "b");
+    ASSERT_EQ(stream.str(), "98");
 }

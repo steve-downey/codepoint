@@ -16,10 +16,10 @@ class codepoint {
     codepoint() = default;
 
     template<ranges::Integral I>
-    constexpr codepoint(I i) : value_(i) {}
+    constexpr codepoint(I i);
 
     template<ranges::Integral I>
-    constexpr explicit operator I() const {return  value_;}
+    constexpr explicit operator I() const;
 
     codepoint& operator++();
     codepoint& operator--();
@@ -40,7 +40,16 @@ class codepoint {
     friend constexpr bool operator>=(codepoint l, codepoint r);
 
     friend constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs);
+
 };
+
+template <ranges::Integral I>
+constexpr codepoint::codepoint(I i) : value_(i) {}
+
+template <ranges::Integral I>
+constexpr codepoint::operator I() const {
+    return value_;
+}
 
 codepoint& codepoint::operator++() {
     ++value_;
@@ -93,6 +102,13 @@ constexpr bool operator>=(codepoint l, codepoint r) {
 constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs) {
     return lhs.value_ - rhs.value_;
 }
+
+template< class CharT, class Traits >
+std::basic_ostream<CharT,Traits>&
+operator<<( std::basic_ostream<CharT,Traits>& os, codepoint c ) {
+    return (os << static_cast<char32_t>(c));
+}
+
 } // namespace scratch
 
 #endif
