@@ -15,22 +15,22 @@ class codepoint {
   public:
     codepoint() = default;
 
-    template<ranges::Integral I>
+    template <ranges::Integral I>
     constexpr codepoint(I i);
 
-    template<ranges::Integral I>
+    template <ranges::Integral I>
     constexpr explicit operator I() const;
 
     codepoint& operator++();
     codepoint& operator--();
-    codepoint operator++(int);
-    codepoint operator--(int);
+    codepoint  operator++(int);
+    codepoint  operator--(int);
 
-    template<ranges::Integral I>
-    codepoint& operator +=(I b);
+    template <ranges::Integral I>
+    codepoint& operator+=(I b);
 
-    template<ranges::Integral I>
-    codepoint& operator -=(I b);
+    template <ranges::Integral I>
+    codepoint& operator-=(I b);
 
     template <ranges::Integral I>
     friend codepoint operator+(codepoint lhs, I rhs) {
@@ -52,7 +52,6 @@ class codepoint {
     friend constexpr bool operator>=(codepoint l, codepoint r);
 
     friend constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs);
-
 };
 
 template <ranges::Integral I>
@@ -123,9 +122,9 @@ inline constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs) {
     return lhs.value_ - rhs.value_;
 }
 
-template< class CharT, class Traits >
-inline std::basic_ostream<CharT,Traits>&
-operator<<( std::basic_ostream<CharT,Traits>& os, codepoint c ) {
+template <class CharT, class Traits>
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, codepoint c) {
     return (os << static_cast<char32_t>(c));
 }
 
