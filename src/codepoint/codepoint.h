@@ -21,25 +21,25 @@ class codepoint {
     template <ranges::Integral I>
     constexpr explicit operator I() const noexcept;
 
-    codepoint& operator++() noexcept;
-    codepoint& operator--() noexcept;
-    codepoint  operator++(int) noexcept;
-    codepoint  operator--(int) noexcept;
+    constexpr codepoint& operator++() noexcept;
+    constexpr codepoint& operator--() noexcept;
+    constexpr codepoint  operator++(int) noexcept;
+    constexpr codepoint  operator--(int) noexcept;
 
     template <ranges::Integral I>
-    codepoint& operator+=(I b) noexcept;
+    constexpr codepoint& operator+=(I b) noexcept;
 
     template <ranges::Integral I>
-    codepoint& operator-=(I b) noexcept;
+    constexpr codepoint& operator-=(I b) noexcept;
 
     template <ranges::Integral I>
-    friend codepoint operator+(codepoint lhs, I rhs) noexcept {
+    friend constexpr codepoint operator+(codepoint lhs, I rhs) noexcept {
         lhs += rhs;
         return lhs;
     }
 
     template <ranges::Integral I>
-    friend codepoint operator-(codepoint lhs, I rhs) noexcept {
+    friend constexpr codepoint operator-(codepoint lhs, I rhs) noexcept {
         lhs -= rhs;
         return lhs;
     }
@@ -71,34 +71,34 @@ inline constexpr codepoint::operator I() const noexcept {
     return value_;
 }
 
-inline codepoint& codepoint::operator++() noexcept {
+inline constexpr codepoint& codepoint::operator++() noexcept {
     ++value_;
     return *this;
 }
 
-inline codepoint& codepoint::operator--() noexcept {
+inline constexpr codepoint& codepoint::operator--() noexcept {
     --value_;
     return *this;
 }
 
-inline codepoint codepoint::operator++(int) noexcept {
+inline constexpr codepoint codepoint::operator++(int) noexcept {
     char32_t tmp = value_++;
     return tmp;
 }
 
-inline codepoint codepoint::operator--(int) noexcept {
+inline constexpr codepoint codepoint::operator--(int) noexcept {
     char32_t tmp = value_--;
     return tmp;
 }
 
 template <ranges::Integral I>
-inline codepoint& codepoint::operator+=(I i) noexcept {
+inline constexpr codepoint& codepoint::operator+=(I i) noexcept {
     value_ += i;
     return *this;
 }
 
 template <ranges::Integral I>
-inline codepoint& codepoint::operator-=(I i) noexcept {
+inline constexpr codepoint& codepoint::operator-=(I i) noexcept {
     value_ -= i;
     return *this;
 }

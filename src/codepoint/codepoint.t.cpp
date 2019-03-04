@@ -62,7 +62,13 @@ TEST(CodepointTest, AddSubAssign) {
     codepoint cp4 = 0;
     (cp4 += 1) += 2;
     ASSERT_EQ(cp4, 3);
+}
 
+TEST(CodepointTest, ConstExprAddSubAssign) {
+    constexpr codepoint cp2 = (codepoint{1} += 1);
+    ASSERT_EQ(cp2, 2);
+    constexpr codepoint cp3 = (codepoint{2} -= 2);
+    ASSERT_EQ(cp3, 0);
 }
 
 TEST(CodepointTest, AddSub) {
@@ -75,6 +81,19 @@ TEST(CodepointTest, AddSub) {
     ASSERT_EQ(cp2, 2);
 
     codepoint cp4 = (cp3 + 2) + 1;
+    ASSERT_EQ(cp4, 3);
+}
+
+TEST(CodepointTest, ConstExprAddSub) {
+    constexpr codepoint cp1{1};
+    constexpr codepoint cp2 = (cp1 + 1);
+    ASSERT_EQ(cp1, 1);
+    ASSERT_EQ(cp2, 2);
+    constexpr codepoint cp3 = (cp2 - 2);
+    ASSERT_EQ(cp3, 0);
+    ASSERT_EQ(cp2, 2);
+
+    constexpr codepoint cp4 = (cp3 + 2) + 1;
     ASSERT_EQ(cp4, 3);
 }
 
@@ -99,6 +118,20 @@ TEST(CodepointTest, IncDec) {
 
     codepoint& r1 = ++cp1;
     codepoint& r2 = --cp1;
+}
+
+TEST(CodepointTest, ConstExprIncDec) {
+    constexpr codepoint t1 = codepoint{4}++;
+    ASSERT_EQ(t1, 4);
+
+    constexpr codepoint t2 = ++codepoint{4};
+    ASSERT_EQ(t2, 5);
+
+    constexpr codepoint t3 = codepoint{4}--;
+    ASSERT_EQ(t3, 4);
+
+    constexpr codepoint t4 = --codepoint{4};
+    ASSERT_EQ(t4, 3);
 }
 
 TEST(CodepointTest, Diff) {
