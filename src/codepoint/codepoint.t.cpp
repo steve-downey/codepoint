@@ -75,7 +75,7 @@ TEST(CodepointTest, AddSub) {
     ASSERT_EQ(cp2, 2);
 
     codepoint cp4 = (cp3 + 2) + 1;
-    ASSERT_EQ(cp3, 3);
+    ASSERT_EQ(cp4, 3);
 }
 
 TEST(CodepointTest, IncDec) {
