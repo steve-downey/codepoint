@@ -82,6 +82,12 @@ TEST(CodepointTest, AddSub) {
 
     codepoint cp4 = (cp3 + 2) + 1;
     ASSERT_EQ(cp4, 3);
+
+    codepoint cp5 = (1 + cp1);
+    ASSERT_EQ(cp5, 2);
+
+    codepoint cp6 = (1 - cp1);
+    ASSERT_EQ(cp6, 0);
 }
 
 TEST(CodepointTest, ConstExprAddSub) {

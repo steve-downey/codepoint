@@ -44,6 +44,18 @@ class codepoint {
         return lhs;
     }
 
+    template <ranges::Integral I>
+    friend constexpr codepoint operator+(I lhs, codepoint rhs) noexcept {
+        lhs += static_cast<I>(rhs);
+        return lhs;
+    }
+
+    template <ranges::Integral I>
+    friend constexpr codepoint operator-(I lhs, codepoint rhs) noexcept {
+        lhs -= static_cast<I>(rhs);
+        return lhs;
+    }
+
     //  auto constexpr operator<=>(codepoint) = default;
     friend constexpr bool operator==(codepoint l, codepoint r) noexcept{
         return l.value_ == r.value_;
