@@ -10,7 +10,7 @@ namespace ranges = std::experimental::ranges;
 namespace unicode {
 
 class codepoint {
-    char32_t value_;
+    char32_t value_; // for exposition only
 
   public:
     codepoint() noexcept = default;
@@ -81,8 +81,8 @@ class codepoint {
         return l.value_ >= r.value_;
     }
 
-    friend constexpr ptrdiff_t operator-(codepoint lhs,
-                                         codepoint rhs) noexcept{
+    friend constexpr int_least32_t operator-(codepoint lhs,
+                                             codepoint rhs) noexcept{
         return lhs.value_ - rhs.value_;
     }
 };
