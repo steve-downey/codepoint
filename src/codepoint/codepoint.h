@@ -45,15 +45,34 @@ class codepoint {
     }
 
     //  auto constexpr operator<=>(codepoint) = default;
-    friend constexpr bool operator==(codepoint l, codepoint r) noexcept;
-    friend constexpr bool operator!=(codepoint l, codepoint r) noexcept;
-    friend constexpr bool operator<(codepoint l, codepoint r) noexcept;
-    friend constexpr bool operator<=(codepoint l, codepoint r) noexcept;
-    friend constexpr bool operator>(codepoint l, codepoint r) noexcept;
-    friend constexpr bool operator>=(codepoint l, codepoint r) noexcept;
+    friend constexpr bool operator==(codepoint l, codepoint r) noexcept{
+        return l.value_ == r.value_;
+    }
+
+    friend constexpr bool operator!=(codepoint l, codepoint r) noexcept{
+        return l.value_ != r.value_;
+    }
+
+    friend constexpr bool operator<(codepoint l, codepoint r) noexcept{
+        return l.value_ < r.value_;
+    }
+
+    friend constexpr bool operator<=(codepoint l, codepoint r) noexcept{
+        return l.value_ <= r.value_;
+    }
+
+    friend constexpr bool operator>(codepoint l, codepoint r) noexcept{
+        return l.value_ > r.value_;
+    }
+
+    friend constexpr bool operator>=(codepoint l, codepoint r) noexcept{
+        return l.value_ >= r.value_;
+    }
 
     friend constexpr ptrdiff_t operator-(codepoint lhs,
-                                         codepoint rhs) noexcept;
+                                         codepoint rhs) noexcept{
+        return lhs.value_ - rhs.value_;
+    }
 };
 
 template <class CharT, class Traits>
@@ -103,33 +122,6 @@ inline constexpr codepoint& codepoint::operator-=(I i) noexcept {
     return *this;
 }
 
-inline constexpr bool operator==(codepoint l, codepoint r) noexcept {
-    return l.value_ == r.value_;
-}
-
-inline constexpr bool operator!=(codepoint l, codepoint r) noexcept {
-    return l.value_ != r.value_;
-}
-
-inline constexpr bool operator<(codepoint l, codepoint r) noexcept {
-    return l.value_ < r.value_;
-}
-
-inline constexpr bool operator<=(codepoint l, codepoint r) noexcept {
-    return l.value_ <= r.value_;
-}
-
-inline constexpr bool operator>(codepoint l, codepoint r) noexcept {
-    return l.value_ > r.value_;
-}
-
-inline constexpr bool operator>=(codepoint l, codepoint r) noexcept {
-    return l.value_ >= r.value_;
-}
-
-inline constexpr ptrdiff_t operator-(codepoint lhs, codepoint rhs) noexcept {
-    return lhs.value_ - rhs.value_;
-}
 
 } // namespace unicode
 
