@@ -10,6 +10,8 @@ namespace ranges = std::experimental::ranges;
 namespace unicode {
 
 enum class codepoint : char32_t {
+    min = 0,
+    max = 0x10FFFF,
 };
 
 template <ranges::Integral I>
