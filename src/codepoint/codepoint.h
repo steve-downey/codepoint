@@ -2,138 +2,102 @@
 #ifndef INCLUDED_CODEPOINT
 #define INCLUDED_CODEPOINT
 
-#include <experimental/ranges/algorithm>
-#include <experimental/ranges/iterator>
-
-namespace ranges = std::experimental::ranges;
+#include <optional>
 
 namespace unicode {
 
+inline constexpr struct {
+} assume_valid = {};
+
+constexpr auto first_surrogate = 0xD800;
+constexpr auto last_surrogate  = 0xDFFF;
+constexpr auto last_code_point = 0x10FFFF;
+
 class codepoint {
-    char32_t value_; // for exposition only
-
   public:
-    codepoint() noexcept = default;
+    codepoint() = delete;
 
-    template <ranges::Integral I>
-    constexpr codepoint(I i) noexcept;
+    friend constexpr std::optional<codepoint>
+    as_codepoint(std::uint32_t value) noexcept;
 
-    template <ranges::Integral I>
-    constexpr explicit operator I() const noexcept;
+    friend constexpr codepoint as_codepoint(std::uint32_t value,
+                                            decltype(assume_valid)) noexcept;
 
-    constexpr codepoint& operator++() noexcept;
-    constexpr codepoint& operator--() noexcept;
-    constexpr codepoint  operator++(int) noexcept;
-    constexpr codepoint  operator--(int) noexcept;
-
-    template <ranges::Integral I>
-    constexpr codepoint& operator+=(I b) noexcept;
-
-    template <ranges::Integral I>
-    constexpr codepoint& operator-=(I b) noexcept;
-
-    template <ranges::Integral I>
-    friend constexpr codepoint operator+(codepoint lhs, I rhs) noexcept {
-        lhs += rhs;
-        return lhs;
-    }
-
-    template <ranges::Integral I>
-    friend constexpr codepoint operator-(codepoint lhs, I rhs) noexcept {
-        lhs -= rhs;
-        return lhs;
-    }
-
-    template <ranges::Integral I>
-    friend constexpr codepoint operator+(I lhs, codepoint rhs) noexcept {
-        lhs += static_cast<I>(rhs);
-        return lhs;
-    }
-
-    template <ranges::Integral I>
-    friend constexpr codepoint operator-(I lhs, codepoint rhs) noexcept {
-        lhs -= static_cast<I>(rhs);
-        return lhs;
+    explicit constexpr operator std::uint32_t() const noexcept {
+        return value_;
     }
 
     //  auto constexpr operator<=>(codepoint) = default;
-    friend constexpr bool operator==(codepoint l, codepoint r) noexcept{
+    friend constexpr bool operator==(codepoint l, codepoint r) noexcept {
         return l.value_ == r.value_;
     }
 
-    friend constexpr bool operator!=(codepoint l, codepoint r) noexcept{
+    friend constexpr bool operator!=(codepoint l, codepoint r) noexcept {
         return l.value_ != r.value_;
     }
 
-    friend constexpr bool operator<(codepoint l, codepoint r) noexcept{
+    friend constexpr bool operator<(codepoint l, codepoint r) noexcept {
         return l.value_ < r.value_;
     }
 
-    friend constexpr bool operator<=(codepoint l, codepoint r) noexcept{
+    friend constexpr bool operator<=(codepoint l, codepoint r) noexcept {
         return l.value_ <= r.value_;
     }
 
-    friend constexpr bool operator>(codepoint l, codepoint r) noexcept{
+    friend constexpr bool operator>(codepoint l, codepoint r) noexcept {
         return l.value_ > r.value_;
     }
 
-    friend constexpr bool operator>=(codepoint l, codepoint r) noexcept{
+    friend constexpr bool operator>=(codepoint l, codepoint r) noexcept {
         return l.value_ >= r.value_;
     }
 
     friend constexpr int_least32_t operator-(codepoint lhs,
-                                             codepoint rhs) noexcept{
+                                             codepoint rhs) noexcept {
         return lhs.value_ - rhs.value_;
     }
+
+    friend constexpr bool operator==(std::uint32_t l, codepoint r) noexcept {
+        return l == r.value_;
+    }
+
+    friend constexpr bool operator==(codepoint l, std::uint32_t r) noexcept {
+        return l.value_ == r;
+    }
+
+    friend constexpr bool operator!=(std::uint32_t l, codepoint r) noexcept {
+        return l != r.value_;
+    }
+
+    friend constexpr bool operator!=(codepoint l, std::uint32_t r) noexcept {
+        return l.value_ != r;
+    }
+
+    template <class CharT, class Traits>
+    friend inline std::basic_ostream<CharT, Traits>&
+    operator<<(std::basic_ostream<CharT, Traits>& os, codepoint c) noexcept {
+        return (os << static_cast<uint32_t>(c));
+    }
+
+  private:
+    constexpr codepoint(std::uint32_t v) : value_(v) {}
+    std::uint32_t value_;
 };
 
-template <class CharT, class Traits>
-inline std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, codepoint c) noexcept {
-    return (os << static_cast<char32_t>(c));
+
+constexpr std::optional<codepoint> as_codepoint(std::uint32_t value) noexcept {
+    if ((value >= first_surrogate && value <= last_surrogate) ||
+        value > last_code_point) {
+        return std::nullopt;
+    } else {
+        return codepoint{value};
+    }
 }
 
-// IMPLEMENTATIONS
-template <ranges::Integral I>
-inline constexpr codepoint::codepoint(I i) noexcept : value_(i) {}
-
-template <ranges::Integral I>
-inline constexpr codepoint::operator I() const noexcept {
-    return value_;
+constexpr codepoint as_codepoint(std::uint32_t value,
+                                 decltype(assume_valid)) noexcept {
+    return codepoint{value};
 }
-
-inline constexpr codepoint& codepoint::operator++() noexcept {
-    ++value_;
-    return *this;
-}
-
-inline constexpr codepoint& codepoint::operator--() noexcept {
-    --value_;
-    return *this;
-}
-
-inline constexpr codepoint codepoint::operator++(int) noexcept {
-    char32_t tmp = value_++;
-    return tmp;
-}
-
-inline constexpr codepoint codepoint::operator--(int) noexcept {
-    char32_t tmp = value_--;
-    return tmp;
-}
-
-template <ranges::Integral I>
-inline constexpr codepoint& codepoint::operator+=(I i) noexcept {
-    value_ += i;
-    return *this;
-}
-
-template <ranges::Integral I>
-inline constexpr codepoint& codepoint::operator-=(I i) noexcept {
-    value_ -= i;
-    return *this;
-}
-
 
 } // namespace unicode
 
